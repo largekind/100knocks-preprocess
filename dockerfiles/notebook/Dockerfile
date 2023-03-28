@@ -17,6 +17,18 @@ RUN apt-get update \
     && find / -type f -perm /u+s -ignore_readdir_race -exec chmod u-s {} \; \
     && find / -type f -perm /g+s -ignore_readdir_race -exec chmod g-s {} \;
 
+# GitやKiteの拡張機能を追加
+
+## JupyterLabのGit機能
+RUN conda install -c conda-forge jupyterlab jupyterlab-git jupyterlab_vim
+
+## 補完機能の導入
+RUN pip install lckr-jupyterlab-variableinspector && \
+    pip install jupyterlab_tabnine && \
+    pip install ipywidgets && \
+    pip install jupyterlab-lsp && \
+    pip install 'python-lsp-server[all]'
+
 USER jovyan
 WORKDIR /home/jovyan
 COPY Pipfile .
